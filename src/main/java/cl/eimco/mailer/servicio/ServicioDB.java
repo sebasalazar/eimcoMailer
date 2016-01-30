@@ -1,6 +1,7 @@
 package cl.eimco.mailer.servicio;
 
 import cl.eimco.mailer.modelo.Estudiante;
+import cl.eimco.mailer.util.PropUtils;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,7 +31,9 @@ public class ServicioDB implements Serializable {
     @PostConstruct
     public void iniciar() {
         boolean ok = conectar();
-        if (!ok) {
+        if (ok) {
+            logger.info("Iniciando Servicio DB");
+        } else {
             logger.info("ERROR: no fue posible conectarme a la base de datos");
         }
 
@@ -39,10 +42,14 @@ public class ServicioDB implements Serializable {
     boolean conectar() {
         this.conectado = false;
         try {
-            String url = "jdbc:postgresql:moodledb";
+            String url = PropUtils.obtenerPropiedad("jdbc.url");
+            String usuario  = PropUtils.obtenerPropiedad("jdbc.usuario");
+            String password  = PropUtils.obtenerPropiedad("jdbc.password");
+            
+            
             Properties props = new Properties();
-            props.setProperty("user", "moodle");
-            props.setProperty("password", "moodle");
+            props.setProperty("user", usuario);
+            props.setProperty("password", password);
             this.conexion = DriverManager.getConnection(url, props);
 
             if (conexion != null) {

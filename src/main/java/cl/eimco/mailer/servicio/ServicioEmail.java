@@ -1,5 +1,6 @@
 package cl.eimco.mailer.servicio;
 
+import cl.eimco.mailer.util.PropUtils;
 import java.io.Serializable;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
@@ -31,20 +32,25 @@ public class ServicioEmail implements Serializable {
     public void iniciar() {
         try {
             logger.info("Iniciando Servicio Email");
-            miNombre = "Sebastián Salazar Molina";
-            miCorreo = "sebasalazar@gmail.com";
+            miNombre = PropUtils.obtenerPropiedad("mail.nombre");
+            miCorreo = PropUtils.obtenerPropiedad("mail.usuario");
+
+            String miPass = PropUtils.obtenerPropiedad("mail.password");
+            String servidor = PropUtils.obtenerPropiedad("mail.servidor");
+            String puerto = PropUtils.obtenerPropiedad("mail.puerto");
+            String auth = PropUtils.obtenerPropiedad("mail.auth");
 
             Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
+            props.put("mail.smtp.host", servidor);
+//            props.put("mail.smtp.socketFactory.port", "465");
+//            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", auth);
+            props.put("mail.smtp.port", puerto);
 
             mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(miCorreo, "contraseña");
+                    return new PasswordAuthentication(miCorreo, miPass);
                 }
             });
             // Debug
@@ -79,10 +85,11 @@ public class ServicioEmail implements Serializable {
                             + "3 - En la esquina superior derecha, verá un ícono con su nombre, al presionarlo se mostrará la opción de 'Preferencias', pinche esa opción. %s"
                             + "4 - Busque en la página que se le presentará la opción 'Cambiar contraseña', pinche ese link y cambie su contraseña. %s"
                             + "Espero que estos pequeños pasos le sean de utilidad, si encuentra algún problema o algo no funciona le invito a que me escriba "
-                            + "a este mismo correo electrónico, para poder atender su inquietud. %s"
+                            + "al correo electrónico sebasalazar@gmail.com , para poder atender su inquietud. %s"
                             + "Le saluda atentamente, %s"
-                            + "Sebastián Salazar Molina.",
-                            SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, usuario, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA);
+                            + "Sebastián Salazar Molina. %s"
+                            + "PD: Este es un correo automático, si necesita soporte técnico, por favor escribama a sebasalazar@gmail.com",
+                            SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, usuario, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA);
 
                     Message message = new MimeMessage(mailSession);
                     message.setFrom(desde);
