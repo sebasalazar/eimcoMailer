@@ -109,7 +109,8 @@ public class ServicioDB implements Serializable {
         try {
             boolean ok = conectar();
             if (ok) {
-                String sql = "SELECT id, firstname || ' ' || lastname AS nombre, username, password, email FROM mdl_user WHERE password='$2y$10$kBSrnL2ZbonHYPX27Ew.VOpdgoMOBZDVD8JnewvJAj3XhP7rNTT56'";
+//                String sql = "SELECT id, firstname || ' ' || lastname AS nombre, username, password, email FROM mdl_user WHERE password='$2y$10$kBSrnL2ZbonHYPX27Ew.VOpdgoMOBZDVD8JnewvJAj3XhP7rNTT56'";
+                String sql = "SELECT id, firstname || ' ' || lastname AS nombre, username, password, email FROM mdl_user";
                 PreparedStatement pst = conexion.prepareStatement(sql);
                 if (pst != null) {
                     ResultSet rs = pst.executeQuery();

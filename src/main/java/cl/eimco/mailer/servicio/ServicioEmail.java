@@ -2,10 +2,9 @@ package cl.eimco.mailer.servicio;
 
 import cl.eimco.mailer.util.PropUtils;
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Properties;
-import javax.annotation.PostConstruct;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -28,17 +27,18 @@ public class ServicioEmail implements Serializable {
     private static final String SALTO_LINEA = System.getProperty("line.separator");
     private static final Logger logger = LoggerFactory.getLogger(ServicioEmail.class);
 
-    @PostConstruct
-    public void iniciar() {
+    public ServicioEmail() {
         try {
             logger.info("Iniciando Servicio Email");
             miNombre = PropUtils.obtenerPropiedad("mail.nombre");
-            miCorreo = PropUtils.obtenerPropiedad("mail.usuario");
 
+            String miUsuario = PropUtils.obtenerPropiedad("mail.usuario");
             String miPass = PropUtils.obtenerPropiedad("mail.password");
             String servidor = PropUtils.obtenerPropiedad("mail.servidor");
             String puerto = PropUtils.obtenerPropiedad("mail.puerto");
             String auth = PropUtils.obtenerPropiedad("mail.auth");
+
+            miCorreo = StringUtils.lowerCase(String.format("%s@%s", miUsuario, servidor));
 
             Properties props = new Properties();
             props.put("mail.smtp.host", servidor);
@@ -50,7 +50,7 @@ public class ServicioEmail implements Serializable {
             mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(miCorreo, miPass);
+                    return new PasswordAuthentication(miUsuario, miPass);
                 }
             });
             // Debug
