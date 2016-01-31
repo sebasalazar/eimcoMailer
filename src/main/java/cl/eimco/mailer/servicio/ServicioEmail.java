@@ -47,7 +47,7 @@ public class ServicioEmail implements Serializable {
                     + "al correo electrónico sebasalazar@gmail.com , para poder atender su inquietud. %s"
                     + "Le saluda atentamente, %s"
                     + "Sebastián Salazar Molina. %s"
-                    + "PD: Este es un correo automático, si necesita soporte técnico, por favor escribama a sebasalazar@gmail.com",
+                    + "PD: Este es un correo automático, si necesita soporte técnico, por favor escribame a sebasalazar@gmail.com",
                     SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, usuario, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA, SALTO_LINEA);
 
             Email email = new SimpleEmail();
