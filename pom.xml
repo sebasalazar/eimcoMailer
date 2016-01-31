@@ -133,10 +133,16 @@
 
         <!-- Mail -->
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.4</version>
+        </dependency>
+<!--
+        <dependency>
             <groupId>org.apache.geronimo.javamail</groupId>
             <artifactId>geronimo-javamail_1.4_mail</artifactId>
             <version>${geronimo.mail.version}</version>
         </dependency>
-
+-->
     </dependencies>
 </project>
