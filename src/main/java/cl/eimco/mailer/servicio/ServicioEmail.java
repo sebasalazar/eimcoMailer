@@ -73,7 +73,7 @@ public class ServicioEmail implements Serializable {
             logger.debug(mensaje);
             logger.debug("Resultado: '{}'", resultado);
             logger.debug("==== Correo ====");
-
+            ok = true;
         } catch (Exception e) {
             ok = false;
             logger.error("No fue posible enviar el correo: {}", e.toString());
